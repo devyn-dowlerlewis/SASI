@@ -44,21 +44,21 @@ def instantiate_function_class(req_model):
     return None, f"No function class found for function: {req_model.function}"
 
 
-def instantiate_client(req_model):
-    client_class_name = format_class_name(req_model.client)  # Assuming client naming follows a similar pattern
+def instantiate_service(req_model):
+    service_class_name = format_class_name(req_model.service)  # Assuming service naming follows a similar pattern
     try:
-        # Assuming all clients are structured similarly under the llm_services directory
-        client_module = importlib.import_module(f"llm_services.{req_model.client}")
-        # Assuming a consistent class naming convention or a consistent class name within each client module
-        client_class = getattr(client_module, client_class_name, None)
-        if client_class:
-            return client_class(), None  # Successfully instantiated client, no error
+        # Assuming all services are structured similarly under the llm_services directory
+        service_module = importlib.import_module(f"llm_services.{req_model.service}")
+        # Assuming a consistent class naming convention or a consistent class name within each service module
+        service_class = getattr(service_module, service_class_name, None)
+        if service_class:
+            return service_class(), None  # Successfully instantiated service, no error
     except ImportError as e:
         # Logging the error might be helpful for debugging
-        print(f"Error importing client {req_model.client}: {e}")
+        print(f"Error importing service {req_model.service}: {e}")
 
-    # If we reach this point, there was an issue with importing or finding the client class
-    return None, f"No client class found for client: {req_model.client}"
+    # If we reach this point, there was an issue with importing or finding the service class
+    return None, f"No service class found for service: {req_model.service}"
 
 
 def format_class_name(s):

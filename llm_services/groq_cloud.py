@@ -1,7 +1,7 @@
 from groq import Groq
 import os
 import instructor
-
+import time
 
 # noinspection PyProtectedMember
 class GroqCloud:
@@ -9,8 +9,10 @@ class GroqCloud:
         self.client = instructor.patch(Groq(api_key=os.environ.get("GROQ_API_KEY")), mode=instructor.Mode.MD_JSON)
 
     def make_request(self, message_array, model, response_model):
-        print(message_array)
+        print(f"\nService: Groq Cloud | Model: {model}")
+        #print(message_array)
         try:
+            start = time.time()
             response: response_model = self.client.chat.completions.create(
                 model=model,
                 response_model=response_model,
@@ -18,9 +20,11 @@ class GroqCloud:
                 temperature=0.1,
                 max_retries=5
             )
-            print(response)
+            #print(response)
             usage = response._raw_response.usage
             usage_dict = {attr: getattr(usage, attr) for attr in ['completion_tokens', 'prompt_tokens', 'total_tokens']}
+            end = time.time()
+            print(f"Inference Complete In {end-start:.3f}. Usage: {usage_dict}")
 
             response_dict = response.to_dict()
             response_dict["usage"] = usage_dict

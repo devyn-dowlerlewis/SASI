@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class RequestModel(BaseModel):
-    client: str
+    service: str
     model: str
     function: str
     parameters: dict

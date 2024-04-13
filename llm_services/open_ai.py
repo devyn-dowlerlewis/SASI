@@ -1,5 +1,6 @@
 from openai import OpenAI
 import instructor
+import time
 
 # noinspection PyProtectedMember
 class OpenAi:
@@ -8,9 +9,10 @@ class OpenAi:
 
     def make_request(self, message_array, gpt_version, response_model):
         model = map_gpt_version(gpt_version)
-        print(model)
-        print(message_array)
+        print(f"\nService: OpenAI | Model: {model}")
+        # print(message_array)
         try:
+            start = time.time()
             response = self.client.chat.completions.create(
                 model=model,
                 response_model=response_model,
@@ -22,6 +24,8 @@ class OpenAi:
 
             response_dict = response.to_dict()
             response_dict["usage"] = usage_dict
+            end = time.time()
+            print(f"Inference Complete In {end - start:.3f} Seconds. Usage: {usage_dict}")
 
             return response_dict  # Return the raw response
 

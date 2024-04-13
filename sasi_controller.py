@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from utils import validate_request_model, validate_parameters_model, instantiate_function_class, instantiate_client
+from utils import validate_request_model, validate_parameters_model, instantiate_function_class, instantiate_service
 
 sasi_bp = Blueprint('sasi_bp', __name__)
 
@@ -13,11 +13,11 @@ def process_sasi_request(req_model):
     if func_error:
         return None, {"error": func_error}
 
-    client_instance, client_error = instantiate_client(req_model)
-    if client_error:
-        return None, {"error": client_error}
+    service_instance, service_error = instantiate_service(req_model)
+    if service_error:
+        return None, {"error": service_error}
 
-    response = function_instance.generate_response(req_model, client_instance)
+    response = function_instance.generate_response(req_model, service_instance)
     return response, None
 
 
