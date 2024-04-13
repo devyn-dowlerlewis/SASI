@@ -1,8 +1,9 @@
-def create_message_array(system_message):
+def create_message_array(parameters):
     context_prompt = _generate_system_prompt()
-    instructions_prompt = _generate_instructions_prompt(system_message)
+    instructions_prompt = _generate_instructions_prompt(parameters["system_message"])
     message_array = [{"role": "system", "content": context_prompt}, {'role': 'user', 'content': instructions_prompt}]
     return message_array
+
 
 def _generate_system_prompt():
     return "You are an assistant who must analyse a message from a DTMF telephone banking system in which it requests something from the user. \

@@ -1,5 +1,6 @@
 import anthropic
 import instructor
+import time
 
 
 class AnthropicAi:
@@ -7,10 +8,11 @@ class AnthropicAi:
         self.client = instructor.from_anthropic(anthropic.Anthropic())
 
     def make_request(self, message_array, model, response_model):
-        print(message_array)
+        #print(message_array)
         model = self.map_model(model)
-        print(model)
+        print(f"\nService: Anthropic AI | Model: {model}")
         try:
+            start = time.time()
             response = self.client.chat.completions.create(
                 model=model,
                 response_model=response_model,
@@ -25,7 +27,8 @@ class AnthropicAi:
 
             response_dict = response.to_dict()
             response_dict["usage"] = usage_dict
-
+            end = time.time()
+            print(f"Inference Complete In {end - start:.3f} Seconds. Usage: {usage_dict}")
             return response_dict  # Return the raw response
 
         except Exception as e:

@@ -9,7 +9,7 @@ class OpenAi:
 
     def make_request(self, message_array, gpt_version, response_model):
         model = map_gpt_version(gpt_version)
-        print(f"\nService: OpenAI | Model: {model}")
+        print(f"\nService: Open AI | Model: {model}")
         # print(message_array)
         try:
             start = time.time()
