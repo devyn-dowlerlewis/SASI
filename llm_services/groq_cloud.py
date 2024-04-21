@@ -18,7 +18,7 @@ class GroqCloud:
                 model=model,
                 response_model=response_model,
                 messages=message_array,
-                temperature=0.1,
+                temperature=0,
                 max_retries=5
             )
             #print(response)
@@ -37,10 +37,7 @@ class GroqCloud:
             return {"error": e}
 
     def map_model(self, model):
-        #print(model.lower())
-        if model.lower() == "llama2":
-            return "llama2-70b-4096"
-        elif model.lower() == "gemma":
-            return "gemma-7b-it"
+        if model == "llama3-70b-8192":
+            return "llama3-70b-8192"
         else:
-            return "mixtral-8x7b-32768"
+            return "llama3-8b-8192"

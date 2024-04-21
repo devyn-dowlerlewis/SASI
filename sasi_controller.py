@@ -4,6 +4,7 @@ import time
 
 sasi_bp = Blueprint('sasi_bp', __name__)
 
+active_services = {}
 
 def process_sasi_request(req_model):
     paramsstart = time.time()
@@ -21,9 +22,17 @@ def process_sasi_request(req_model):
     #print(funcend - funcstart)
 
     servicestart = time.time()
-    service_instance, service_error = instantiate_service(req_model)
-    if service_error:
-        return None, {"error": service_error}
+    current_service = req_model.service
+    print(current_service)
+    print(active_services)
+    if current_service in active_services:
+        service_instance = active_services[current_service]
+    else:
+        service_instance, service_error = instantiate_service(req_model)
+        if service_error:
+            return None, {"error": service_error}
+        active_services[current_service] = service_instance
+
     serviceend = time.time()
     #print(f"service instant: {serviceend - servicestart}")
     substart = time.time()

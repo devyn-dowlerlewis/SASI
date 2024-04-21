@@ -19,6 +19,7 @@ class OpenAi:
                 messages=message_array,
                 temperature=0
             )
+            print(response)
             usage = response._raw_response.usage
             usage_dict = {attr: getattr(usage, attr) for attr in ['completion_tokens', 'prompt_tokens', 'total_tokens']}
 
